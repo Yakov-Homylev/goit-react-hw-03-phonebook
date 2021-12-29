@@ -15,6 +15,20 @@ class App extends Component {
     filter: "",
   };
 
+  componentDidMount() {
+    const notParsedContacts = localStorage.getItem("contacts");
+    const contacts = JSON.parse(notParsedContacts);
+    if (contacts) {
+      this.setState({ contacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
+    }
+  }
+
   onSubmitForm = (e) => {
     e.preventDefault();
     const name = e.currentTarget.elements.name.value;
